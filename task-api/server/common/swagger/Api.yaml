@@ -1,0 +1,136 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: task-api
+  description: Task list app
+basePath: /api/v1
+tags:
+  - name: tasks
+    description: Simple task endpoints
+  - name: Specification
+    description: The swagger API specification
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+
+definitions:
+  taskBody:
+    type: object
+    title: task
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      due_date:
+        type: string
+      completed:
+        type: boolean
+        example: false
+      type:
+        type: string
+        example: 'task'
+  taskUpdate:
+    type: object
+    title: taskUpdate
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      due_date:
+        type: string
+      completed:
+        type: boolean
+
+paths:
+  /tasks:
+    get:
+      tags:
+        - tasks
+      description: Fetch all tasks
+      responses:
+        200:
+          description: Returns all tasks
+    post:
+      tags:
+        - tasks
+      description: Create a new task
+      parameters:
+        - name: task
+          in: body
+          description: a task
+          required: true
+          schema: 
+            $ref: "#/definitions/taskBody"
+      responses:
+        200:
+          description: Returns all tasks
+
+  /tasks/{id}:
+    get:
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the task to retrieve
+          type: string
+      responses:
+        200:
+          description: Return the task with the specified id
+        404:
+          description: task not found
+
+  /tasks/{id}/update:
+    put:
+      tags:
+        - tasks
+      description: Update an existing task
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the task to retrieve
+          type: string
+        - name: taskUpdate
+          in: body
+          description: Task details
+          required: true
+          schema: 
+            $ref: "#/definitions/taskUpdate"
+      responses:
+        200:
+          description: Return the updated task with the specified id
+        404:
+          description: task not found
+
+  /tasks/{id}/delete:
+    delete:
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the task to delete
+          type: string
+      responses:
+        200:
+          description: Return record deleted 
+        404:
+          description: Task not found
+
+  /spec:
+    get:
+      tags:
+        - Specification
+      responses:
+        200:
+          description: Return the API specification

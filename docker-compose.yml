@@ -1,0 +1,57 @@
+version: '3'
+services:
+  couchdb:
+    image: couchdb:latest
+    restart: always
+    volumes:
+      - couchdb-data-volume:/usr/local/var/lib/couchdb
+    expose:
+      - "5984"
+    ports:
+      - "5984:5984"
+    networks:
+      - task-network
+  api:
+    build: ./task-api
+    container_name: task-api
+    depends_on:
+      - couchdb
+    networks:
+      - task-network
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=couchdb
+      - WAIT_HOSTS=couchdb:5984
+  test:
+    build: 
+      context: ./task-api
+      dockerfile: Dockerfile.test
+    depends_on:
+      - api
+    networks:
+      - task-network
+    environment:
+      - DB_HOST=couchdb
+      - WAIT_HOSTS=couchdb:5984
+  frontend:
+    build: ./task-frontend/task-vue
+    container_name: task-frontend
+    depends_on:
+      - api
+    networks:
+      - task-network
+    expose:
+      - "8080"
+    ports:
+      - "8080:80"
+    environment:
+      - API_HOST=api
+
+volumes:
+  couchdb-data-volume:
+
+networks:
+  task-network:
