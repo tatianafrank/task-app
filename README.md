@@ -38,7 +38,7 @@ Start the whole environment (CouchDB + API + UI):
 docker-compose up couchdb api frontend
 ```
 
-Run tests in a separate console window (Other 3 containers must be up first)
+Run tests
 
 This container will exit on its own after tests finish running
 
