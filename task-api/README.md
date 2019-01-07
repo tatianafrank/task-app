@@ -1,34 +1,44 @@
 # task-api
 
-Task list app
+Node/Express API handles CRUD requests for couchdb tasks database
 
-## Get Started
+# Requirements
 
-Get started developing...
+Node version >=8
 
-# install deps
+# Install
+
 ```shell
 npm install
 ```
 
-# Connect to couchdb locally
+# Connect to couchdb locally (in a separate console window)
+
+```shell
 docker run -it -p 5984:5984 --name local-couchdb apache/couchdb:latest
+```
 
-# run in development mode
+# Run API in development mode
+
+```shell
 npm run dev
+```
 
-# run tests
-# (Make sure database is up before running tests by running `docker-compose up couchdb`)
-npm run test
-
-#### Run in *production* mode:
-
-Compiles the application and starts it in production production mode.
+# Run in production mode:
 
 ```shell
 npm run compile
 npm start
 ```
+
+# Run tests
+
+(Make sure database is running and exit dev or production instance)
+
+```shell
+npm run test
+```
+
 
 ## Try It
 * Open you're browser to [http://localhost:3000](http://localhost:3000)
